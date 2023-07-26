@@ -1,5 +1,5 @@
 {
-  "routeTableSettings": {
+  "routeTable": {
     "type": "String",
     "metadata": {
       "displayName": "Route Table Settings",

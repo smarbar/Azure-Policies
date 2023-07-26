@@ -11,7 +11,7 @@
       "category": "Network"
     },
     "parameters": {
-      "routeTableSettings": {
+      "routeTable": {
         "type": "String",
         "metadata": {
           "displayName": "Route Table Settings",
@@ -29,7 +29,7 @@
           },
           {
             "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-            "notEquals": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+            "notEquals": "[parameters('routeTable')]"
           }
         ]
       },
@@ -44,7 +44,7 @@
             {
               "operation": "addOrReplace",
               "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
-              "value": "[concat(subscription().id, '/resourceGroups/', parameters('routeTableSettings')[field('location')].resourceGroupName, '/providers/Microsoft.Network/routeTables/', parameters('routeTableSettings')[field('location')].routeTableName)]"
+              "value": "[parameters('routeTable')]"
             }
           ]
         }
