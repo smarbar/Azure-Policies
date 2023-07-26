@@ -2,15 +2,15 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "enforce-dns-servers-on-vnets",
   "properties": {
-    "DisplayName": "Enforce VNET DNS servers",
-    "Description": "This policy prevent setting non authorized dns servers for vnets.",
-    "PolicyType": "Custom",
-    "Mode": "Indexed",
-    "Metadata": {
+    "displayName": "Enforce VNET DNS servers",
+    "description": "This policy prevent setting non authorized dns servers for vnets.",
+    "policyType": "Custom",
+    "mode": "Indexed",
+    "metadata": {
       "version": "1.0.0",
       "category": "Azure DNS"
     },
-    "Parameters": {
+    "parameters": {
       "effect": {
         "type": "String",
         "metadata": {
@@ -28,9 +28,9 @@
         }
       }
     },
-    "PolicyRule": {
+    "policyRule": {
       "if": {
-        "AllOf": [
+        "allOf": [
           { "equals": "Microsoft.Network/virtualNetworks", "field": "type" },
           {
             "anyOf": [
