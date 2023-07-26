@@ -1,6 +1,6 @@
 {
   "if": {
-    "AllOf": [
+    "allOf": [
       { "equals": "Microsoft.Network/virtualNetworks", "field": "type" },
       {
         "anyOf": [

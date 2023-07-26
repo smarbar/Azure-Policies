@@ -1,6 +1,6 @@
 {
   "routeTableSettings": {
-    "type": "Object",
+    "type": "String",
     "metadata": {
       "displayName": "Route Table Settings",
       "description": "Location-specific settings for route tables.",
