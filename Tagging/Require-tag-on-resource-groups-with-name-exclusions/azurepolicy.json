@@ -1,0 +1,92 @@
+{
+  "properties": {
+    "displayName": "Require a tag on resource groups with name exclusions",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Enforces existence of a tag on resource groups. With name pattern exclusions",
+    "metadata": {
+      "category": "Tags",
+      "createdBy": "6b384350-4c36-42cc-ac0b-233343f4f2c2",
+      "createdOn": "2023-05-30T13:54:28.268415Z",
+      "updatedBy": "6b384350-4c36-42cc-ac0b-233343f4f2c2",
+      "updatedOn": "2023-05-30T14:29:33.9409934Z"
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "field": "[concat('tags[', parameters('tagName'), ']')]",
+            "exists": "false"
+          },
+          {
+            "field": "name",
+            "notLike": "Rg-AVD-Build-*"
+          },
+          {
+            "field": "name",
+            "notLike": "Rg-backup-restorepoints-*"
+          },
+          {
+            "field": "name",
+            "notLike": "AzureBackupRG*"
+          },
+          {
+            "field": "name",
+            "notLike": "ResourceMover*"
+          },
+          {
+            "field": "name",
+            "notLike": "databricks-rg*"
+          },
+          {
+            "field": "name",
+            "notLike": "NetworkWatcherRG"
+          },
+          {
+            "field": "name",
+            "notLike": "microsoft-network"
+          },
+          {
+            "field": "name",
+            "notLike": "LogAnalyticsDefaultResources"
+          },
+          {
+            "field": "name",
+            "notLike": "DynamicsDeployments*"
+          },
+          {
+            "field": "name",
+            "notLike": "MC_myResourceGroup*"
+          }
+        ]
+      },
+      "then": {
+        "effect": "deny"
+      }
+    }
+  },
+  "id": "/providers/Microsoft.Management/managementGroups/itgroup/providers/Microsoft.Authorization/policyDefinitions/e565f27c-3efe-40cb-b84c-48bb0c96bc19",
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "e565f27c-3efe-40cb-b84c-48bb0c96bc19",
+  "systemData": {
+    "createdBy": "Scott.Barrett@identityglobal.ae",
+    "createdByType": "User",
+    "createdAt": "2023-05-30T13:54:28.2262085Z",
+    "lastModifiedBy": "Scott.Barrett@identityglobal.ae",
+    "lastModifiedByType": "User",
+    "lastModifiedAt": "2023-05-30T14:29:33.8448451Z"
+  }
+}
