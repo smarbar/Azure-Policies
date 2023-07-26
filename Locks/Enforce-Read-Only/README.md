@@ -1,39 +1,56 @@
-# Enforce Do Not Delete Lock on Resource Group
+# Enforce ReadOnly Lock on Resource Group
 
-This policy adds the do DoNotDelete lock to the resource group (which flows down to resources).
+This policy adds the ReadOnly lock to the resource group (which flows down to resources). It can be assigned at either the Management Group, Subscription or Resource Group level.
 
 ## Try with Azure portal
 
-[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2FAzure%2Fazure-policy%2Fmaster%2Fsamples%2FCompute%2Fallowed-custom-images%2Fazurepolicy.json)
+[![Deploy to Azure](http://azuredeploy.net/deploybutton.png)](https://portal.azure.com/?#blade/Microsoft_Azure_Policy/CreatePolicyDefinitionBlade/uri/https%3A%2F%2Fraw.githubusercontent.com%2Fsmarbar%2FAzure-Policies%2Fmain%2FLocks%2FEnforce-Read-Only%2Fazurepolicy.json)
 
 ## Try with Azure PowerShell
 
+### Create Policy Definition
+
+```powershell
+# Create the Policy Definition (Management Group scope)
+$definition = New-AzPolicyDefinition -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+```
+
+Or
+
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-do-not-delete-lock-on-resource-group' -DisplayName 'Deploy CanNotDelete Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion.' -Policy 'https://raw.githubusercontent.com/smarbar/CommonFiles/master/PolicyDefinitions/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/CommonFiles/master/PolicyDefinitions/Locks/Enforce-Do-Not-Delete/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' -Mode All
+```
 
-# Set the scope to a resource group; may also be a subscription or management group
-$scope = Get-AzResourceGroup -Name 'YourResourceGroup'
+### Assign the Policy definition
 
-# Set the Policy Parameter (JSON format)
-$policyparam = '{ "imageIds": { "value": [ "/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage", "/Subscriptions/<subscriptionId>/Providers/Microsoft.Compute/Locations/centralus/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/WindowsServer/Skus/2016-Datacenter/Versions/2016.127.20180510" ] } }'
+```powershell
+# Set the scope to either Management Group, Subscription or Resource Group;
+$scope = (Get-AzManagementGroup -Name 'YourResourceGroup').Id
+$scope = (Get-AzSubscription -SubscriptionName 'YourResourceGroup').Id
+$scope = (Get-AzResourceGroup -Name 'YourResourceGroup').ResourceId
 
 # Create the Policy Assignment
-$assignment = New-AzPolicyAssignment -Name 'allowed-custom-images-assignment' -DisplayName 'Approved VM images Assignment' -Scope $scope.ResourceId -PolicyDefinition $definition -PolicyParameter $policyparam
+$assignment = New-AzPolicyAssignment -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -Scope $scope -PolicyDefinition $definition
 ```
 
 ## Try with Azure CLI
 
+### Create Policy Definition
+
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --name 'allowed-custom-images' --display-name 'Approved VM images' --description 'This policy governs the approved VM images' --rules 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/Compute/allowed-custom-images/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/Azure/azure-policy/master/samples/Compute/allowed-custom-images/azurepolicy.parameters.json' --mode All)
+definition=$(az policy definition create --name 'enforce-read-only-lock-on-resource-group' --display-name 'Deploy ReadOnly Resource Lock on Resource Groups' --description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' --mode All)
+```
 
-# Set the scope to a resource group; may also be a subscription or management group
+### Assign the Policy definition
+
+```cli
+# Set the scope to either Management Group, Subscription or Resource Group;
+scope=$(az account management-group show --name 'YourManagementGroup')
+scope=$(az account show --name 'YourSubscription')
 scope=$(az group show --name 'YourResourceGroup')
 
-# Set the Policy Parameter (JSON format)
-policyparam='{ "imageIds": { "value": [ "/subscriptions/<subscriptionId>/resourceGroups/YourResourceGroup/providers/Microsoft.Compute/images/ContosoStdImage", "/Subscriptions/<subscriptionId>/Providers/Microsoft.Compute/Locations/centralus/Publishers/MicrosoftWindowsServer/ArtifactTypes/VMImage/Offers/WindowsServer/Skus/2016-Datacenter/Versions/2016.127.20180510" ] } }'
-
 # Create the Policy Assignment
-assignment=$(az policy assignment create --name 'allowed-custom-images-assignment' --display-name 'Approved VM images Assignment' --scope `echo $scope | jq '.id' -r` --policy `echo $definition | jq '.name' -r` --params "$policyparam")
+assignment=$(az policy assignment create --name 'enforce-read-only-lock-on-resource-group' --display-name 'Deploy ReadOnly Resource Lock on Resource Groups'  --scope `echo $scope | jq '.id' -r` --policy `echo $definition | jq '.name' -r`)
 ```

@@ -1,1 +1,21 @@
-{}
+{
+  "if": {
+    "allOf": [
+      {
+        "field": "type",
+        "equals": "Microsoft.Network/virtualNetworks/subnets"
+      },
+      {
+        "field": "name",
+        "notEquals": "AzureBastionSubnet"
+      },
+      {
+        "field": "Microsoft.Network/virtualNetworks/subnets/routeTable.id",
+        "exists": false
+      }
+    ]
+  },
+  "then": {
+    "effect": "audit"
+  }
+}

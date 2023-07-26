@@ -1,0 +1,10 @@
+{
+  "routeTableSettings": {
+    "type": "Object",
+    "metadata": {
+      "displayName": "Route Table Settings",
+      "description": "Location-specific settings for route tables.",
+      "strongType": "Microsoft.Network/routeTables"
+    }
+  }
+}

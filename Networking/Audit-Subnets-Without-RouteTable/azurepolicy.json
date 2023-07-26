@@ -1,6 +1,8 @@
 {
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "audit-route-table-on-vnet-subnets",
   "properties": {
-    "displayName": "AINE Route Table for subnets in vnets",
+    "displayName": "Audit Route Table on subnets in vnets",
     "policyType": "Custom",
     "mode": "All",
     "description": "Custom policy to audit if a route table exists on appropriate subnets in all vnets",
@@ -8,7 +10,6 @@
       "version": "1.0.0",
       "category": "Network"
     },
-
     "policyRule": {
       "if": {
         "allOf": [

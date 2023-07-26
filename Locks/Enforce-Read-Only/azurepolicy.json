@@ -1,13 +1,14 @@
 {
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "enforce-read-only-lock-on-resource-group",
   "properties": {
     "displayName": "Deploy ReadOnly Resource Lock on Resource Groups",
     "description": "Creates a resource lock at the resource group level for preventing resource deletion and modification.",
-    "mode": "all",
+    "mode": "All",
     "metadata": {
       "version": "1.0.0",
       "category": "General"
     },
-    "parameters": {},
     "policyRule": {
       "if": {
         "field": "type",
