@@ -1,8 +1,8 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "enforce-default-route-table-on-subnets",
+  "name": "modify-default-route-table-on-subnets",
   "properties": {
-    "displayName": "Enforce a default Route Table on subnets",
+    "displayName": "Modify a default Route Table on subnets",
     "description": "Adds a route table to subnets. Other route tables are replaced with the default route table.",
     "policyType": "Custom",
     "mode": "All",
