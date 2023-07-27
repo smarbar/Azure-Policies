@@ -1,6 +1,8 @@
 # Modify a Default RouteTable on Subnets
 
-This policy adds or replaces the RouteTable assigned to subnets.
+This policy adds or replaces the RouteTable assigned to subnets during subnet creation. Normal route table rules apply so make sure to assign policy as needed, i.e. The route table must be in the same subscription and region as the VNET.
+
+**NOTE: It does not take effect when creating subnets during the initial VNET creation.**
 
 ## Try with Azure portal
 
@@ -12,29 +14,32 @@ This policy adds or replaces the RouteTable assigned to subnets.
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'modify-default-route-table-on-subnets' -DisplayName 'Modify a default Route Table on subnets' -description 'Adds a route table to subnets. Other route tables are replaced with the default route table.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'modify-default-route-table-on-subnets' -DisplayName 'Modify a default Route Table on subnets' -description 'Adds a route table to subnets. Other route tables are replaced with the default route table.' -metadata '{ "version": "1.0.0", "category": "Network" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'modify-default-route-table-on-subnets' -DisplayName 'Modify a default Route Table on subnets' -description 'Adds a route table to subnets. Other route tables are replaced with the default route table.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'modify-default-route-table-on-subnets' -DisplayName 'Modify a default Route Table on subnets' -description 'Adds a route table to subnets. Other route tables are replaced with the default route table.' -metadata '{ "version": "1.0.0", "category": "Network" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.parameters.json' -Mode All
 ```
 
 ### Assign the Policy definition
 
 ```powershell
 # Set the scope to either Management Group, Subscription or Resource Group;
+# Management Group
 $scope = (Get-AzManagementGroup -Name 'YourResourceGroup').Id
+# Subscription
 $scope = (Get-AzSubscription -SubscriptionName 'YourResourceGroup').Id
+# Resource Group
 $scope = (Get-AzResourceGroup -Name 'YourResourceGroup').ResourceId
 
-
-$routeTable = Get-AzRouteTable -Name 'YourRouteTableName'
+# Get the Route Table ID for parameters
+$routeTableId = (Get-AzRouteTable -Name 'YourRouteTableName').id
 
 # Set the Policy Parameter (JSON format)
-$policyparam = "{ `"routeTableSettings`": { `"value`": ${$routeTable} } }" <<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+$policyparam = "{ `"routeTable`": { `"value`": `"${routeTableId}`" } }"
 
 # Create the Policy Assignment
 $assignment = New-AzPolicyAssignment -Name 'modify-default-route-table-on-subnets' -DisplayName 'Modify a default Route Table on subnets' -Scope $scope -PolicyDefinition $definition -PolicyParameter $policyparam
@@ -46,7 +51,7 @@ $assignment = New-AzPolicyAssignment -Name 'modify-default-route-table-on-subnet
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --Name 'modify-default-route-table-on-subnets' --display-name 'Modify a default Route Table on subnets' --description 'Adds a route table to subnets. Other route tables are replaced with the default route table.' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.rules.json' --mode All)
+definition=$(az policy definition create --Name 'modify-default-route-table-on-subnets' --display-name 'Modify a default Route Table on subnets' --description 'Adds a route table to subnets. Other route tables are replaced with the default route table.' --metadata '{ "version": "1.0.0", "category": "Network" }' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Modify-Default-RouteTable-On-Subnets/azurepolicy.rules.json' --mode All)
 ```
 
 ### Assign the Policy definition

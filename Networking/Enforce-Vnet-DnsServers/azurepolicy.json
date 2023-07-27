@@ -8,7 +8,7 @@
     "mode": "Indexed",
     "metadata": {
       "version": "1.0.0",
-      "category": "Azure DNS"
+      "category": "Network"
     },
     "parameters": {
       "effect": {

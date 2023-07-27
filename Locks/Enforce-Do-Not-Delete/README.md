@@ -12,14 +12,14 @@ This policy adds the DoNotDelete lock to the resource group (which flows down to
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-do-not-delete-lock-on-resource-group' -DisplayName 'Deploy CanNotDelete Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'enforce-do-not-delete-lock-on-resource-group' -DisplayName 'Deploy CanNotDelete Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion.' -metadata '{ "version": "1.0.0", "category": "General" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-do-not-delete-lock-on-resource-group' -DisplayName 'Deploy CanNotDelete Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'enforce-do-not-delete-lock-on-resource-group' -DisplayName 'Deploy CanNotDelete Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion.' -metadata '{ "version": "1.0.0", "category": "General" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' -Mode All
 ```
 
 ### Assign the Policy definition
@@ -40,7 +40,7 @@ $assignment = New-AzPolicyAssignment -Name 'enforce-do-not-delete-lock-on-resour
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --name 'enforce-do-not-delete-lock-on-resource-group' --display-name 'Deploy CanNotDelete Resource Lock on Resource Groups' --description 'Creates a resource lock at the resource group level for preventing resource deletion.' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' --mode All)
+definition=$(az policy definition create --name 'enforce-do-not-delete-lock-on-resource-group' --display-name 'Deploy CanNotDelete Resource Lock on Resource Groups' --description 'Creates a resource lock at the resource group level for preventing resource deletion.' --metadata '{ "version": "1.0.0", "category": "General" }' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Do-Not-Delete/azurepolicy.rules.json' --mode All)
 ```
 
 ### Assign the Policy definition

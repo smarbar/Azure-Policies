@@ -12,14 +12,14 @@ This policy audits subnets that do not have a Route Table assigned
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'audit-route-table-on-vnet-subnets' -DisplayName 'Audit Route Table on subnets in vnets' -description 'Custom policy to audit if a route table is assigned to subnets in all vnets' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Audit-Subnets-Without-RouteTable/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'audit-route-table-on-vnet-subnets' -DisplayName 'Audit Route Table on subnets in vnets' -description 'Custom policy to audit if a route table is assigned to subnets in all vnets' -metadata '{ "version": "1.0.0", "category": "Network" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Audit-Subnets-Without-RouteTable/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'audit-route-table-on-vnet-subnets' -DisplayName 'Audit Route Table on subnets in vnets' -description 'Custom policy to audit if a route table is assigned to subnets in all vnets' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Audit-Subnets-Without-RouteTable/azurepolicy.rules.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'audit-route-table-on-vnet-subnets' -DisplayName 'Audit Route Table on subnets in vnets' -description 'Custom policy to audit if a route table is assigned to subnets in all vnets' -metadata '{ "version": "1.0.0", "category": "Network" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Audit-Subnets-Without-RouteTable/azurepolicy.rules.json' -Mode All
 ```
 
 ### Assign the Policy definition
@@ -40,7 +40,7 @@ $assignment = New-AzPolicyAssignment -Name 'audit-route-table-on-vnet-subnets' -
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --Name 'audit-route-table-on-vnet-subnets' --display-name 'Audit Route Table on subnets in vnets' --description 'Custom policy to audit if a route table is assigned to subnets in all vnets' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Audit-Subnets-Without-RouteTable/azurepolicy.rules.json' --mode All)
+definition=$(az policy definition create --Name 'audit-route-table-on-vnet-subnets' --display-name 'Audit Route Table on subnets in vnets' --description 'Custom policy to audit if a route table is assigned to subnets in all vnets' --metadata '{ "version": "1.0.0", "category": "Network" }' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Audit-Subnets-Without-RouteTable/azurepolicy.rules.json' --mode All)
 ```
 
 ### Assign the Policy definition

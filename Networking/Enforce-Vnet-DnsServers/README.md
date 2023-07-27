@@ -12,14 +12,14 @@ This policy enforces DNS servers on VNETS.
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-dns-servers-on-vnets' -DisplayName 'Enforce VNET DNS servers' -description 'This policy prevent setting non authorized dns servers for vnets.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'enforce-dns-servers-on-vnets' -DisplayName 'Enforce VNET DNS servers' -description 'This policy prevent setting non authorized dns servers for vnets.' -metadata '{ "version": "1.0.0", "category": "Network" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-dns-servers-on-vnets' -DisplayName 'Enforce VNET DNS servers' -description 'This policy prevent setting non authorized dns servers for vnets.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'enforce-dns-servers-on-vnets' -DisplayName 'Enforce VNET DNS servers' -description 'This policy prevent setting non authorized dns servers for vnets.' -metadata '{ "version": "1.0.0", "category": "Network" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.parameters.json' -Mode All
 ```
 
 ### Assign the Policy definition
@@ -43,7 +43,7 @@ $assignment = New-AzPolicyAssignment -Name 'enforce-dns-servers-on-vnets' -Displ
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --Name 'enforce-dns-servers-on-vnets' --display-name 'Enforce VNET DNS servers' --description 'This policy prevent setting non authorized dns servers for vnets.' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.parameters.json' --mode All)
+definition=$(az policy definition create --Name 'enforce-dns-servers-on-vnets' --display-name 'Enforce VNET DNS servers' --description 'This policy prevent setting non authorized dns servers for vnets.' --metadata '{ "version": "1.0.0", "category": "Network" }' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Networking/Enforce-Vnet-DnsServers/azurepolicy.parameters.json' --mode All)
 ```
 
 ### Assign the Policy definition

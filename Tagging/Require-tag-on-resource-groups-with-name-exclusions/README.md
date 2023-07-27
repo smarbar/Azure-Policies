@@ -12,14 +12,14 @@ This policy will deny a resource group creation unless a specific tag has also b
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups. With name pattern exclusions' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups. With name pattern exclusions' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups. With name pattern exclusions' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups. With name pattern exclusions' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All
 ```
 
 ### Assign the Policy definition
@@ -46,7 +46,7 @@ $assignment = New-AzPolicyAssignment -Name 'require-tag-on-resource-group-with-n
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --Name 'require-tag-on-resource-group-with-name-exclusions' --display-name 'Require a tag on resource groups with name exclusions' --description 'Enforces existence of a tag on resource groups. With name pattern exclusions' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' --mode All)
+definition=$(az policy definition create --Name 'require-tag-on-resource-group-with-name-exclusions' --display-name 'Require a tag on resource groups with name exclusions' --description 'Enforces existence of a tag on resource groups. With name pattern exclusions' --metadata '{ "version": "1.0.0", "category": "Tags" }' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' --params 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' --mode All)
 ```
 
 ### Assign the Policy definition

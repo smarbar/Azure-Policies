@@ -12,14 +12,14 @@ This policy adds the ReadOnly lock to the resource group (which flows down to re
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' -metadata '{ "version": "1.0.0", "category": "General" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'enforce-read-only-lock-on-resource-group' -DisplayName 'Deploy ReadOnly Resource Lock on Resource Groups' -description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' -metadata '{ "version": "1.0.0", "category": "General" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' -Mode All
 ```
 
 ### Assign the Policy definition
@@ -40,7 +40,7 @@ $assignment = New-AzPolicyAssignment -Name 'enforce-read-only-lock-on-resource-g
 
 ```cli
 # Create the Policy Definition (Subscription scope)
-definition=$(az policy definition create --name 'enforce-read-only-lock-on-resource-group' --display-name 'Deploy ReadOnly Resource Lock on Resource Groups' --description 'Creates a resource lock at the resource group level for preventing resource deletion and modification.' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' --mode All)
+definition=$(az policy definition create --name 'enforce-read-only-lock-on-resource-group' --display-name 'Deploy ReadOnly Resource Lock on Resource Groups' --description 'Creates a resource lock at the resource group level for preventing resource deletion and modification. --metadata '{ "version": "1.0.0", "category": "General" }'' --rules 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Locks/Enforce-Read-Only/azurepolicy.rules.json' --mode All)
 ```
 
 ### Assign the Policy definition
