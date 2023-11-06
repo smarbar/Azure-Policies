@@ -1,11 +1,11 @@
 {
   "type": "Microsoft.Authorization/policyDefinitions",
-  "name": "require-tag-on-vm",
+  "name": "require-tag-on-resource-group-value-array",
   "properties": {
-    "displayName": "Require a tag on virtual machines",
+    "displayName": "Require a tag on resource groups with approved value",
     "policyType": "Custom",
     "mode": "All",
-    "description": "Enforces existence of a tag on virtual machines",
+    "description": "Enforces existence of a tag on resource groups with approved value",
     "metadata": {
       "version": "1.0.0",
       "category": "Tags"
@@ -31,7 +31,7 @@
           "displayName": "Effect",
           "description": "Enable or disable the execution of the policy"
         },
-        "allowedValues": ["Audit", "AuditIfNotExists", "Deny", "Disabled"],
+        "allowedValues": ["Audit", "Deny", "Disabled"],
         "defaultValue": "Deny"
       }
     },
@@ -40,10 +40,7 @@
         "allOf": [
           {
             "field": "type",
-            "in": [
-              "Microsoft.Compute/virtualMachines",
-              "Microsoft.ClassicCompute/virtualMachines"
-            ]
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
           },
           {
             "not": {

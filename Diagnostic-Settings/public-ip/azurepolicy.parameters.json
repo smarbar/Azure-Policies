@@ -1,0 +1,35 @@
+{
+  "profileName": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Profile Name for Config",
+      "description": "The profile name Azure Diagnostics"
+    }
+  },
+  "logAnalytics": {
+    "type": "String",
+    "metadata": {
+      "displayName": "logAnalytics",
+      "description": "The target Log Analytics Workspace for Azure Diagnostics",
+      "strongType": "omsWorkspace"
+    }
+  },
+  "metricsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Metrics",
+      "description": "Enable Metrics - True or False"
+    },
+    "allowedValues": ["True", "False"],
+    "defaultValue": "False"
+  },
+  "logsEnabled": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Enable Logs",
+      "description": "Enable Logs - True or False"
+    },
+    "allowedValues": ["True", "False"],
+    "defaultValue": "True"
+  }
+}

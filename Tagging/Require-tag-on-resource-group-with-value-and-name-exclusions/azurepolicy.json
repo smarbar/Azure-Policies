@@ -1,0 +1,85 @@
+{
+  "type": "Microsoft.Authorization/policyDefinitions",
+  "name": "require-tag-on-resource-group-with-name-exclusions",
+  "properties": {
+    "displayName": "Require a tag and value on resource groups with name exclusions",
+    "policyType": "Custom",
+    "mode": "All",
+    "description": "Enforces existence of a tag and a value on resource groups. With name pattern exclusions",
+    "metadata": {
+      "version": "1.0.0",
+      "category": "Tags"
+    },
+    "parameters": {
+      "tagName": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Tag Name",
+          "description": "Name of the tag, such as 'environment'"
+        }
+      },
+      "resourceGroupExclusions": {
+        "type": "Array",
+        "defaultValue": [
+          "AzureBackupRG*",
+          "ResourceMover*",
+          "databricks-rg*",
+          "NetworkWatcherRG",
+          "microsoft-network",
+          "LogAnalyticsDefaultResources",
+          "DynamicsDeployments*",
+          "MC_myResourceGroup*"
+        ],
+        "metadata": {
+          "displayName": "Resource Group Name Exclusions",
+          "description": "Resource Group Name that will be excluded from policy"
+        }
+      },
+      "effect": {
+        "type": "String",
+        "metadata": {
+          "displayName": "Effect",
+          "description": "Enable or disable the execution of the policy"
+        },
+        "allowedValues": ["Audit", "Deny", "Disabled"],
+        "defaultValue": "Deny"
+      }
+    },
+    "policyRule": {
+      "if": {
+        "allOf": [
+          {
+            "field": "type",
+            "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+          },
+          {
+            "anyOf": [
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "exists": false
+              },
+              {
+                "field": "[concat('tags[', parameters('tagName'), ']')]",
+                "equals": ""
+              }
+            ]
+          },
+          {
+            "count": {
+              "value": "[parameters('resourceGroupExclusions')]",
+              "name": "pattern",
+              "where": {
+                "field": "name",
+                "like": "[current('pattern')]"
+              }
+            },
+            "equals": 0
+          }
+        ]
+      },
+      "then": {
+        "effect": "[parameters('effect')]"
+      }
+    }
+  }
+}
