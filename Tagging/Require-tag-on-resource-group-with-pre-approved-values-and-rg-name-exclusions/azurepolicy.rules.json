@@ -6,8 +6,10 @@
         "equals": "Microsoft.Resources/subscriptions/resourceGroups"
       },
       {
-        "field": "[concat('tags[', parameters('tagName'), ']')]",
-        "exists": "false"
+        "not": {
+          "field": "[concat('tags[', parameters('tagName'), ']')]",
+          "in": "[parameters('tagValues')]"
+        }
       },
       {
         "count": {

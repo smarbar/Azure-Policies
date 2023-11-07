@@ -2,10 +2,10 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "require-tag-on-vm",
   "properties": {
-    "displayName": "Require a tag on virtual machines",
+    "displayName": "Require a tag on virtual machines with pre-approved values",
     "policyType": "Custom",
     "mode": "All",
-    "description": "Enforces existence of a tag on virtual machines",
+    "description": "Enforces existence of a tag and a list of pre-aproved values on virtual machines",
     "metadata": {
       "version": "1.0.0",
       "category": "Tags"

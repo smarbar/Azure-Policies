@@ -4,6 +4,15 @@
     "metadata": {
       "displayName": "Tag Name",
       "description": "Name of the tag, such as 'environment'"
+    },
+    "effect": {
+      "type": "String",
+      "metadata": {
+        "displayName": "Effect",
+        "description": "Enable or disable the execution of the policy"
+      },
+      "allowedValues": ["Audit", "Deny", "Disabled"],
+      "defaultValue": "Deny"
     }
   },
   "resourceGroupExclusions": {

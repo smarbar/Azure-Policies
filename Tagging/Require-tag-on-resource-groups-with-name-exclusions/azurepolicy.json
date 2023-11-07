@@ -2,10 +2,10 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "require-tag-on-resource-group-with-name-exclusions",
   "properties": {
-    "displayName": "Require a tag on resource groups with name exclusions",
+    "displayName": "Require a tag on resource groups where name does not match pattern",
     "policyType": "Custom",
     "mode": "All",
-    "description": "Enforces existence of a tag on resource groups. With name pattern exclusions",
+    "description": "Enforces existence of a tag on resource groups where the resource group name does not match values in a parameter array. It does not enforce a tag value.",
     "metadata": {
       "version": "1.0.0",
       "category": "Tags"
@@ -16,6 +16,15 @@
         "metadata": {
           "displayName": "Tag Name",
           "description": "Name of the tag, such as 'environment'"
+        },
+        "effect": {
+          "type": "String",
+          "metadata": {
+            "displayName": "Effect",
+            "description": "Enable or disable the execution of the policy"
+          },
+          "allowedValues": ["Audit", "Deny", "Disabled"],
+          "defaultValue": "Deny"
         }
       },
       "resourceGroupExclusions": {
@@ -61,7 +70,7 @@
         ]
       },
       "then": {
-        "effect": "deny"
+        "effect": "[parameters('effect')]"
       }
     }
   }

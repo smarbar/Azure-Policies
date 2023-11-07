@@ -13,6 +13,23 @@
       "displayName": "Allowed tag values"
     }
   },
+  "resourceGroupExclusions": {
+    "type": "Array",
+    "defaultValue": [
+      "AzureBackupRG*",
+      "ResourceMover*",
+      "databricks-rg*",
+      "NetworkWatcherRG",
+      "microsoft-network",
+      "LogAnalyticsDefaultResources",
+      "DynamicsDeployments*",
+      "MC_myResourceGroup*"
+    ],
+    "metadata": {
+      "displayName": "Resource Group Name Exclusions",
+      "description": "Resource Group Name that will be excluded from policy"
+    }
+  },
   "effect": {
     "type": "String",
     "metadata": {

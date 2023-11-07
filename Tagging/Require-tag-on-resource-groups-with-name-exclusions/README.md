@@ -1,6 +1,7 @@
 # Require a Tag on Resource Group with exclusions
 
-This policy will deny a resource group creation unless a specific tag has also been added, except where the resource group name matches one in a list of exclusions.
+**_NOT COMPLETE, NEEDS UPDATING_**
+This policy will deny a resource group creation unless a specific tag has been added, except where the resource group name matches one in a list of exclusions.
 
 ## Try with Azure portal
 
@@ -12,14 +13,14 @@ This policy will deny a resource group creation unless a specific tag has also b
 
 ```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups. With name pattern exclusions' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups where the resource group name does not match values in a parameter array' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups. With name pattern exclusions' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups where the resource group name does not match values in a parameter array' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All
 ```
 
 ### Assign the Policy definition
@@ -32,9 +33,12 @@ $scope = (Get-AzResourceGroup -Name 'YourResourceGroup').ResourceId
 
 
 $routeTable = Get-AzRouteTable -Name 'YourRouteTableName'
+$tagName = '{Required Tag name e.g. Environment}'
+$effect = 'deny' # Possible values are 'deny', 'audit', 'disabled'
+$resourceGroupExclusions = "[ `"AzureBackupRG*`", `"ResourceMover*`", `"databricks-rg*`", `"NetworkWatcherRG`", `"microsoft-network`", `"LogAnalyticsDefaultResources`", `"DynamicsDeployments*`", `"MC_myResourceGroup`*" ]"
 
 # Set the Policy Parameter (JSON format)
-$policyparam = "{ `"routeTableSettings`": { `"value`": ${$routeTable} } }"
+$policyparam = "{ `"resourceGroupExclusions`": { `"value`": ${$resourceGroupExclusions} }, `"effect`": { `"value`": ${$effect}} }"
 
 # Create the Policy Assignment
 $assignment = New-AzPolicyAssignment -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -Scope $scope -PolicyDefinition $definition -PolicyParameter $policyparam

@@ -2,10 +2,10 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "require-tag-on-resource-group-value-array",
   "properties": {
-    "displayName": "Require a tag on resource groups with approved value",
+    "displayName": "Require a tag on resource groups with approved value where name does not match pattern",
     "policyType": "Custom",
     "mode": "All",
-    "description": "Enforces existence of a tag on resource groups with approved value",
+    "description": "Enforces existence of a tag on resource groups with approved value where resource group name does not match pattern values in a parameter array",
     "metadata": {
       "version": "1.0.0",
       "category": "Tags"
@@ -23,6 +23,23 @@
         "metadata": {
           "description": "The list of accepted values",
           "displayName": "Allowed tag values"
+        }
+      },
+      "resourceGroupExclusions": {
+        "type": "Array",
+        "defaultValue": [
+          "AzureBackupRG*",
+          "ResourceMover*",
+          "databricks-rg*",
+          "NetworkWatcherRG",
+          "microsoft-network",
+          "LogAnalyticsDefaultResources",
+          "DynamicsDeployments*",
+          "MC_myResourceGroup*"
+        ],
+        "metadata": {
+          "displayName": "Resource Group Name Exclusions",
+          "description": "Resource Group Name that will be excluded from policy"
         }
       },
       "effect": {
@@ -47,6 +64,17 @@
               "field": "[concat('tags[', parameters('tagName'), ']')]",
               "in": "[parameters('tagValues')]"
             }
+          },
+          {
+            "count": {
+              "value": "[parameters('resourceGroupExclusions')]",
+              "name": "pattern",
+              "where": {
+                "field": "name",
+                "like": "[current('pattern')]"
+              }
+            },
+            "equals": 0
           }
         ]
       },

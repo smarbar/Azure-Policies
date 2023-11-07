@@ -12,5 +12,14 @@
       "description": "The list of accepted values",
       "displayName": "Allowed tag values"
     }
+  },
+  "effect": {
+    "type": "String",
+    "metadata": {
+      "displayName": "Effect",
+      "description": "Enable or disable the execution of the policy"
+    },
+    "allowedValues": ["Audit", "AuditIfNotExists", "Deny", "Disabled"],
+    "defaultValue": "Deny"
   }
 }

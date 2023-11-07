@@ -3,7 +3,10 @@
     "allOf": [
       {
         "field": "type",
-        "equals": "Microsoft.Resources/subscriptions/resourceGroups"
+        "in": [
+          "Microsoft.Compute/virtualMachines",
+          "Microsoft.ClassicCompute/virtualMachines"
+        ]
       },
       {
         "not": {

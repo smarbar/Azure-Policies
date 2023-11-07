@@ -2,10 +2,10 @@
   "type": "Microsoft.Authorization/policyDefinitions",
   "name": "require-tag-on-resource-group-with-name-exclusions",
   "properties": {
-    "displayName": "Require a tag and value on resource groups with name exclusions",
+    "displayName": "Require a tag and any value on resource groups where name does not match pattern",
     "policyType": "Custom",
     "mode": "All",
-    "description": "Enforces existence of a tag and a value on resource groups. With name pattern exclusions",
+    "description": "Enforces existence of a tag and a value on resource groups where the resource group name does not match values in a parameter array",
     "metadata": {
       "version": "1.0.0",
       "category": "Tags"
