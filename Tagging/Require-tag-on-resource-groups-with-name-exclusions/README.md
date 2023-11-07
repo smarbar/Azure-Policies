@@ -1,6 +1,7 @@
 # Require a Tag on Resource Group with exclusions
 
-**_NOT COMPLETE, NEEDS UPDATING_**
+**NOT COMPLETE, ASSIGN POLICY AND CLI SECTIONS NEEDS FINISHING**
+
 This policy will deny a resource group creation unless a specific tag has been added, except where the resource group name matches one in a list of exclusions.
 
 ## Try with Azure portal
@@ -12,15 +13,26 @@ This policy will deny a resource group creation unless a specific tag has been a
 ### Create Policy Definition
 
 ```powershell
+# Populate variables
+$managementGroup = 'YourManagementGroupName'
+
+$policyName = 'require-tag-on-resource-group-with-name-exclusions'
+$policyDisplayName = 'Require a tag on resource groups where name does not match pattern'
+$policyDescription = 'Enforces existence of a tag on resource groups where the resource group name does not match values in a parameter array. It does not enforce a tag value.'
+$policyRulesUrl = 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json'
+$policyParametersUrl = 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json'
+```
+
+```powershell
 # Create the Policy Definition (Management Group scope)
-$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups where the resource group name does not match values in a parameter array' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All -ManagementGroupName 'YourManagementGroupName'
+$definition = New-AzPolicyDefinition -Name $policyName -DisplayName $policyDisplayName -description $policyDescription -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy $policyRulesUrl -Parameter $policyParametersUrl -Mode All -ManagementGroupName $managementGroup
 ```
 
 Or
 
 ```powershell
 # Create the Policy Definition (Subscription scope)
-$definition = New-AzPolicyDefinition -Name 'require-tag-on-resource-group-with-name-exclusions' -DisplayName 'Require a tag on resource groups with name exclusions' -description 'Enforces existence of a tag on resource groups where the resource group name does not match values in a parameter array' -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.rules.json' -Parameter 'https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/Require-tag-on-resource-groups-with-name-exclusions/azurepolicy.parameters.json' -Mode All
+$definition = New-AzPolicyDefinition -Name $policyName -DisplayName $policyDisplayName -description $policyDescription -metadata '{ "version": "1.0.0", "category": "Tags" }' -Policy $policyRulesUrl -Parameter $policyParametersUrl -Mode All
 ```
 
 ### Assign the Policy definition
