@@ -1,5 +1,5 @@
 {
-  "type": "Array",
+  "type": "array",
   "defaultValue": [
     "AzureBackupRG*",
     "ResourceMover*",
