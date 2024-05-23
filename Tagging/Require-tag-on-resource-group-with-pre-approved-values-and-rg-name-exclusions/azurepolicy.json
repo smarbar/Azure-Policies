@@ -16,14 +16,16 @@
         "metadata": {
           "displayName": "Tag Name",
           "description": "Name of the tag, such as 'environment'"
-        }
+        },
+        "defaultValue": "Environment"
       },
       "tagValues": {
         "type": "Array",
         "metadata": {
           "description": "The list of accepted values",
           "displayName": "Allowed tag values"
-        }
+        },
+        "defaultValue": ["Dev", "Stg", "UAT", "Prd"]
       },
       "resourceGroupExclusions": {
         "$ref": "https://raw.githubusercontent.com/smarbar/Azure-Policies/main/Tagging/resource-group-name-exclusions.json"
